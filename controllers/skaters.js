@@ -78,13 +78,13 @@ const deleteSkaterControl = async (req, res) => {
 const editSkaterControl = async (req, res) => {
   try {
     
-    const {id} = req.query;
-    console.log(id)
-    console.log(req.body)
-    const {nombre,password,anos_experiencia,especialidad} = req.body;
-    const skater = {nombre,password,anos_experiencia,especialidad,id};
+    const {email }= req.query;
     
-    const result = await editSkaterQuery(skater);
+    const {nombre,password,anos_experiencia,especialidad} = req.body;
+    
+    const skater = {nombre,password,anos_experiencia,especialidad};
+    
+    const result = await editSkaterQuery(skater,email);
     
     res.send(result);
   } catch (error) {

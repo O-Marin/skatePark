@@ -56,16 +56,18 @@ const deleteSkaterQuery = async (id) => {
 
 
 
-const editSkaterQuery = async (skater) =>{
+const editSkaterQuery = async (skater,email) =>{
+  
   skater = Object.values(skater);
-  console.log(skater)
+  skater.push(email)
+  
   const editSkater = {
-    text:'update skaters set nombre= $1, password=$2, anos_experiencia=$3, especialidad=$4 where id=$5 returning *  ',
+    text:`update skaters set nombre= $1, password=$2, anos_experiencia=$3, especialidad=$4 where email=$5 returning *  `,
     values:skater
   }
   try {
     
-    
+    console.log(editSkater)
     const result = await pool.query(editSkater);
     console.log(result.rows[0])
     return result.rows[0];

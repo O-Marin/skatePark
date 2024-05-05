@@ -61,15 +61,15 @@
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault()
-
-        let [email, nombre, password, repassword, anos_experiencia, especialidad] = document.querySelectorAll("input")
-
         
+        let [email, nombre, password, repassword, anos_experiencia, especialidad] = document.querySelectorAll("input")
+        email = `{{skater.email}}`
+        console.log(email)
         nombre = nombre.value
         password = password.value
         anos_experiencia = anos_experiencia.value
         especialidad = especialidad.value
-        const skater = {
+        const skater = { 
             nombre,
             password,
             anos_experiencia,
@@ -77,7 +77,7 @@
         }
         console.log(skater)
         try {
-            await axios.put("/skaters", skater)
+            await axios.put(`/skaters?email=${email}`, skater)
             alert("Datos actualizados con éxito")
             window.location = "/login"
         } catch ({ response }) {
