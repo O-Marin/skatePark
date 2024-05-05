@@ -46,7 +46,7 @@
     deleteBtn.addEventListener("click", async () => {
         
         try {
-            console.log(id)
+            
             const { data: token } = await axios.delete(`/skaters/${id}`)
             alert("Usuario eliminado con éxito")
             window.location = `/`
@@ -62,18 +62,20 @@
     form.addEventListener("submit", async (e) => {
         e.preventDefault()
 
-        let [email, nombre, password, repassword, años_experiencia, especialidad] = document.querySelectorAll("input")
+        let [email, nombre, password, repassword, anos_experiencia, especialidad] = document.querySelectorAll("input")
 
+        
         nombre = nombre.value
         password = password.value
-        años_experiencia = años_experiencia.value
+        anos_experiencia = anos_experiencia.value
         especialidad = especialidad.value
         const skater = {
             nombre,
             password,
-            años_experiencia,
+            anos_experiencia,
             especialidad
         }
+        console.log(skater)
         try {
             await axios.put("/skaters", skater)
             alert("Datos actualizados con éxito")

@@ -4,18 +4,21 @@ import {
   getSkatersQuery,
   getSkaterQuery,
   deleteSkaterQuery,
+  editSkaterQuery,
 } from "../queries/consultasSkater.js";
 import jwt from "jsonwebtoken";
 const __dirname = path.resolve();
 
 const addSkaterControl = async (req, res) => {
   const { email, nombre, password, anos_experiencia, especialidad } = req.body;
+  console.log(req.body)
+  console.log(req.files)
   const skater = { email, nombre, password, anos_experiencia, especialidad };
-  const { files } = req;
-  const { foto } = files;
+
+  const { foto } = req.files;
   const { name } = foto;
   const pathPhoto = `/img/${name}`;
-  foto.mv(`${__dirname}/public${pathPhoto}`, async (err) => {
+  foto.mv(`${__dirname}/assets${pathPhoto}`, async (err) => {
     try {
       if (err) throw err;
       skater.foto = pathPhoto;
@@ -36,11 +39,10 @@ const getLoginControl = async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await getSkaterQuery(email, password);
-    //token
 
     const secretKey = process.env.SECRET_KEY;
 
-    const token = jwt.sign(result, secretKey);
+    const token = jwt.sign(result, secretKey, {expiresIn:'2m'});
 
     res.status(200).send(token);
   } catch (error) {
@@ -50,7 +52,9 @@ const getLoginControl = async (req, res) => {
 
 const verifyTokenControl = async (req, res) => {
   const token = req.query.token;
+  
   jwt.verify(token, process.env.SECRET_KEY, (err, skater) => {
+   
     if (err) {
       console.log(err);
     }
@@ -60,7 +64,7 @@ const verifyTokenControl = async (req, res) => {
 
 const deleteSkaterControl = async (req, res) => {
   try {
-    console.log(req.params);
+    
     const id = req.params.id;
 
     await deleteSkaterQuery(id);
@@ -73,10 +77,18 @@ const deleteSkaterControl = async (req, res) => {
 
 const editSkaterControl = async (req, res) => {
   try {
-    const {skater} = req.body;
-    console.log(skater)
+    
+    const {id} = req.query;
+    console.log(id)
+    console.log(req.body)
+    const {nombre,password,anos_experiencia,especialidad} = req.body;
+    const skater = {nombre,password,anos_experiencia,especialidad,id};
+    
+    const result = await editSkaterQuery(skater);
+    
+    res.send(result);
   } catch (error) {
-
+    res.status(500).send(error.message)
   }
 };
 

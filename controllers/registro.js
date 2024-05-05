@@ -1,5 +1,5 @@
 const registroControl = async (reg,res)=>{
-    res.render("Registro",{title: "registro", participantes:[]})
+    res.render("Registro")
 }
 
 

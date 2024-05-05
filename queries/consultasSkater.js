@@ -54,4 +54,27 @@ const deleteSkaterQuery = async (id) => {
   return result.rows[0]
 }
 
-export { addSkaterQuery, getSkatersQuery, getSkaterQuery,deleteSkaterQuery };
+
+
+const editSkaterQuery = async (skater) =>{
+  skater = Object.values(skater);
+  console.log(skater)
+  const editSkater = {
+    text:'update skaters set nombre= $1, password=$2, anos_experiencia=$3, especialidad=$4 where id=$5 returning *  ',
+    values:skater
+  }
+  try {
+    
+    
+    const result = await pool.query(editSkater);
+    console.log(result.rows[0])
+    return result.rows[0];
+  } catch (error) {
+    
+  }
+
+
+
+}
+
+export { addSkaterQuery, getSkatersQuery, getSkaterQuery,deleteSkaterQuery,editSkaterQuery };

@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname,'assets')));
 app.use(express.static(path.join(__dirname,'views')));
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist/css'))
 app.use(express.json());
-app.use('/', router);
+
 app.use(
     fileUpload({
       limits: 5000000,
@@ -31,5 +31,5 @@ app.use(
     })
   );
   app.use(express.urlencoded({ extended: false }));
-
+  app.use('/', router);
 app.listen(PORT, ()=> console.log(`Servidor conectado a puerto: ${PORT}`));
